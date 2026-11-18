@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const ConnectDB = require('./config/db.js');
+const authRoutes = require('./routes/auth.routes.js');
 const { notFound, errorHandler } = require('./middleware/error.middleware.js');
 
 const app = express();
@@ -16,7 +17,8 @@ app.get('/', (req, res) => {
     res.json({ message: 'ExamPortal API is running' });
 });
 
-// routes will be added here in the next steps
+// routes
+app.use('/', authRoutes);
 
 // error handling middlewares (always at the end)
 app.use(notFound);
