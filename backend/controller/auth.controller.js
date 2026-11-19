@@ -23,7 +23,7 @@ const createRefreshToken = (user) => {
 // Register a new user (always as student)
 const register = async (req, res, next) => {
     try {
-        const { name, email, password } = req.body;
+        const { name, email, password } = req.body || {};
 
         // check length here because after hashing the password is always long
         if (!password || password.length < 6) {
@@ -52,7 +52,7 @@ const register = async (req, res, next) => {
 // Login
 const login = async (req, res, next) => {
     try {
-        const { email, password } = req.body;
+        const { email, password } = req.body || {};
 
         if (!email || !password) {
             return res.status(400).json({ success: false, message: 'Email and password are required' });
@@ -90,7 +90,7 @@ const login = async (req, res, next) => {
 // Get a new access token using the refresh token
 const refresh = async (req, res, next) => {
     try {
-        const { refreshToken } = req.body;
+        const { refreshToken } = req.body || {};
 
         if (!refreshToken) {
             return res.status(401).json({ success: false, message: 'Refresh token is required' });
@@ -115,7 +115,7 @@ const refresh = async (req, res, next) => {
 // Logout - remove refresh token from DB
 const logout = async (req, res, next) => {
     try {
-        const { refreshToken } = req.body;
+        const { refreshToken } = req.body || {};
 
         if (!refreshToken) {
             return res.status(400).json({ success: false, message: 'Refresh token is required' });
@@ -133,4 +133,17 @@ const logout = async (req, res, next) => {
     }
 }
 
-module.exports = { register, login, refresh, logout };  
+// Get logged in user's details (needs verifyToken)
+const getMe = async (req, res, next) => {
+    try {
+        const user = await User.findById(req.user.id).select('-password -refreshToken');
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+        res.json({ success: true, user: user });
+    } catch (error) {
+        next(error);
+    }
+}
+
+module.exports = { register, login, refresh, logout, getMe };
