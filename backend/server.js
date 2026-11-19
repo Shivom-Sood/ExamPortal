@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const ConnectDB = require('./config/db.js');
 const authRoutes = require('./routes/auth.routes.js');
+const userRoutes = require('./routes/user.routes.js');
 const { notFound, errorHandler } = require('./middleware/error.middleware.js');
 
 const app = express();
@@ -19,6 +20,7 @@ app.get('/', (req, res) => {
 
 // routes
 app.use('/', authRoutes);
+app.use('/', userRoutes);
 
 // error handling middlewares (always at the end)
 app.use(notFound);
