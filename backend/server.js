@@ -4,6 +4,7 @@ const cors = require('cors');
 const ConnectDB = require('./config/db.js');
 const authRoutes = require('./routes/auth.routes.js');
 const userRoutes = require('./routes/user.routes.js');
+const questionRoutes = require('./routes/question.routes.js');
 const { notFound, errorHandler } = require('./middleware/error.middleware.js');
 
 const app = express();
@@ -21,6 +22,7 @@ app.get('/', (req, res) => {
 // routes
 app.use('/', authRoutes);
 app.use('/', userRoutes);
+app.use('/', questionRoutes);
 
 // error handling middlewares (always at the end)
 app.use(notFound);
