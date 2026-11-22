@@ -6,27 +6,25 @@ const authRoutes = require('./routes/auth.routes.js');
 const userRoutes = require('./routes/user.routes.js');
 const questionRoutes = require('./routes/question.routes.js');
 const examRoutes = require('./routes/exam.routes.js');
+const attemptRoutes = require('./routes/attempt.routes.js');
 const { notFound, errorHandler } = require('./middleware/error.middleware.js');
 
 const app = express();
 const port = process.env.PORT || 5050;
 
-// allow the react app (different port) to call this api
 app.use(cors({ origin: process.env.CLIENT_URL }));
 app.use(express.json());
 
-// test route
 app.get('/', (req, res) => {
     res.json({ message: 'ExamPortal API is running' });
 });
 
-// routes
 app.use('/', authRoutes);
 app.use('/', userRoutes);
 app.use('/', questionRoutes);
 app.use('/', examRoutes);
+app.use('/', attemptRoutes);
 
-// error handling middlewares (always at the end)
 app.use(notFound);
 app.use(errorHandler);
 
