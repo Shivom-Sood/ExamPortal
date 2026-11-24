@@ -9,6 +9,7 @@ import TakeExam from './pages/student/TakeExam.jsx';
 import Result from './pages/student/Result.jsx';
 import History from './pages/student/History.jsx';
 import TeacherDashboard from './pages/teacher/TeacherDashboard.jsx';
+import QuestionBank from './pages/teacher/QuestionBank.jsx';
 import AdminDashboard from './pages/admin/AdminDashboard.jsx';
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
 
                     {/* teacher */}
                     <Route path="/teacher" element={<ProtectedRoute role="teacher"><TeacherDashboard /></ProtectedRoute>} />
+                    <Route path="/teacher/questions" element={<ProtectedRoute role="teacher"><QuestionBank /></ProtectedRoute>} />
 
                     {/* admin */}
                     <Route path="/admin" element={<ProtectedRoute role="admin"><AdminDashboard /></ProtectedRoute>} />
