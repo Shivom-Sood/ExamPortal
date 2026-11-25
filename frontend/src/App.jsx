@@ -13,6 +13,7 @@ import QuestionBank from './pages/teacher/QuestionBank.jsx';
 import CreateExam from './pages/teacher/CreateExam.jsx';
 import ExamResults from './pages/teacher/ExamResults.jsx';
 import AdminDashboard from './pages/admin/AdminDashboard.jsx';
+import ManageUsers from './pages/admin/ManageUsers.jsx';
 
 function App() {
     return (
@@ -39,6 +40,7 @@ function App() {
 
                     {/* admin */}
                     <Route path="/admin" element={<ProtectedRoute role="admin"><AdminDashboard /></ProtectedRoute>} />
+                    <Route path="/admin/users" element={<ProtectedRoute role="admin"><ManageUsers /></ProtectedRoute>} />
 
                     <Route path="*" element={
                         <div className="card">
