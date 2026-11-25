@@ -1,0 +1,631 @@
+{
+    "info": {
+        "name": "ExamPortal API",
+        "description": "ExamPortal - Online Examination System (MERN).\n\nRun a Login request first: it saves the access token, and every other request uses it (collection auth = Bearer {{accessToken}}).\nChange baseUrl to http://localhost:5050 to test locally.\nDemo password for all accounts: 123456",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "auth": {
+        "type": "bearer",
+        "bearer": [
+            {
+                "key": "token",
+                "value": "{{accessToken}}",
+                "type": "string"
+            }
+        ]
+    },
+    "variable": [
+        {
+            "key": "baseUrl",
+            "value": "https://examportal-api-hlxv.onrender.com"
+        },
+        {
+            "key": "accessToken",
+            "value": ""
+        },
+        {
+            "key": "refreshToken",
+            "value": ""
+        },
+        {
+            "key": "questionId",
+            "value": ""
+        },
+        {
+            "key": "examId",
+            "value": ""
+        },
+        {
+            "key": "attemptId",
+            "value": ""
+        },
+        {
+            "key": "userId",
+            "value": ""
+        }
+    ],
+    "item": [
+        {
+            "name": "Auth",
+            "item": [
+                {
+                    "name": "Register (student)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": "{{baseUrl}}/api/auth/register",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"New Student\",\n  \"email\": \"newstudent@test.com\",\n  \"password\": \"123456\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    }
+                },
+                {
+                    "name": "Login - admin",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": "{{baseUrl}}/api/auth/login",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"email\": \"admin@examportal.com\",\n  \"password\": \"123456\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "const data = pm.response.json();",
+                                    "if (data.accessToken) {",
+                                    "    pm.collectionVariables.set(\"accessToken\", data.accessToken);",
+                                    "    pm.collectionVariables.set(\"refreshToken\", data.refreshToken);",
+                                    "}"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Login - teacher",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": "{{baseUrl}}/api/auth/login",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"email\": \"priya@examportal.com\",\n  \"password\": \"123456\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "const data = pm.response.json();",
+                                    "if (data.accessToken) {",
+                                    "    pm.collectionVariables.set(\"accessToken\", data.accessToken);",
+                                    "    pm.collectionVariables.set(\"refreshToken\", data.refreshToken);",
+                                    "}"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Login - student",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": "{{baseUrl}}/api/auth/login",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"email\": \"rohan@examportal.com\",\n  \"password\": \"123456\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "const data = pm.response.json();",
+                                    "if (data.accessToken) {",
+                                    "    pm.collectionVariables.set(\"accessToken\", data.accessToken);",
+                                    "    pm.collectionVariables.set(\"refreshToken\", data.refreshToken);",
+                                    "}"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Me (protected)",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": "{{baseUrl}}/api/auth/me"
+                    }
+                },
+                {
+                    "name": "Refresh token",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": "{{baseUrl}}/api/auth/refresh",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "const data = pm.response.json();",
+                                    "if (data.accessToken) {",
+                                    "    pm.collectionVariables.set(\"accessToken\", data.accessToken);",
+                                    "}"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Logout",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": "{{baseUrl}}/api/auth/logout",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Users (admin)",
+            "item": [
+                {
+                    "name": "Get all users",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": "{{baseUrl}}/api/users",
+                        "description": "Login as admin first."
+                    }
+                },
+                {
+                    "name": "Get students only",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": "{{baseUrl}}/api/users?role=student"
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "const data = pm.response.json();",
+                                    "if (data.users && data.users.length > 0) {",
+                                    "    pm.collectionVariables.set(\"userId\", data.users[0]._id);",
+                                    "}"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Change role",
+                    "request": {
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": "{{baseUrl}}/api/users/{{userId}}/role",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"role\": \"teacher\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Delete user",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": "{{baseUrl}}/api/users/{{userId}}"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Questions (teacher)",
+            "item": [
+                {
+                    "name": "Add question",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": "{{baseUrl}}/api/questions",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"text\": \"Which HTTP status code means Not Found?\",\n  \"options\": [\n    \"200\",\n    \"404\",\n    \"500\",\n    \"301\"\n  ],\n  \"correctOption\": 1,\n  \"marks\": 1,\n  \"subject\": \"Node.js\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "Login as teacher first."
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "const data = pm.response.json();",
+                                    "if (data.success) {",
+                                    "    pm.collectionVariables.set(\"questionId\", data.question._id);",
+                                    "}"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Get my questions (search + filter + page)",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": "{{baseUrl}}/api/questions?subject=JavaScript&search=array&page=1&limit=5"
+                    }
+                },
+                {
+                    "name": "Get one question",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": "{{baseUrl}}/api/questions/{{questionId}}"
+                    }
+                },
+                {
+                    "name": "Update question",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": "{{baseUrl}}/api/questions/{{questionId}}",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"marks\": 2\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Delete question",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": "{{baseUrl}}/api/questions/{{questionId}}"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Exams",
+            "item": [
+                {
+                    "name": "Create exam (teacher)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": "{{baseUrl}}/api/exams",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"title\": \"Postman Test Exam\",\n  \"subject\": \"Node.js\",\n  \"duration\": 5,\n  \"passMarks\": 1,\n  \"questions\": [\n    \"{{questionId}}\"\n  ]\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "Put real question ids from \"Get my questions\"."
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "const data = pm.response.json();",
+                                    "if (data.success) {",
+                                    "    pm.collectionVariables.set(\"examId\", data.exam._id);",
+                                    "}"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Get exams (by role)",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": "{{baseUrl}}/api/exams"
+                    }
+                },
+                {
+                    "name": "Get one exam",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": "{{baseUrl}}/api/exams/{{examId}}"
+                    }
+                },
+                {
+                    "name": "Update exam (teacher)",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": "{{baseUrl}}/api/exams/{{examId}}",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"duration\": 10\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Publish exam (teacher)",
+                    "request": {
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": "{{baseUrl}}/api/exams/{{examId}}/publish",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"isPublished\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Delete exam (teacher)",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": "{{baseUrl}}/api/exams/{{examId}}"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Attempts",
+            "item": [
+                {
+                    "name": "Start exam (student)",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "url": "{{baseUrl}}/api/attempts/start/{{examId}}",
+                        "description": "Login as student first. Returns shuffled questions without the correct answers."
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "const data = pm.response.json();",
+                                    "if (data.success) {",
+                                    "    pm.collectionVariables.set(\"attemptId\", data.attemptId);",
+                                    "}"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Submit exam (student)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": "{{baseUrl}}/api/attempts/{{attemptId}}/submit",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"answers\": [\n    {\n      \"question\": \"PASTE_QUESTION_ID\",\n      \"selectedOption\": 1\n    }\n  ]\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "Use question ids from \"Start exam\". Marks are calculated on the server."
+                    }
+                },
+                {
+                    "name": "My attempts (student)",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": "{{baseUrl}}/api/attempts/my"
+                    }
+                },
+                {
+                    "name": "Attempt result (detailed)",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": "{{baseUrl}}/api/attempts/{{attemptId}}"
+                    }
+                },
+                {
+                    "name": "All attempts of an exam (teacher)",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": "{{baseUrl}}/api/attempts/exam/{{examId}}"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Reports (aggregation)",
+            "item": [
+                {
+                    "name": "Exam report (teacher)",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": "{{baseUrl}}/api/reports/exam/{{examId}}"
+                    }
+                },
+                {
+                    "name": "Overview (admin)",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": "{{baseUrl}}/api/reports/overview"
+                    }
+                }
+            ]
+        }
+    ]
+}
