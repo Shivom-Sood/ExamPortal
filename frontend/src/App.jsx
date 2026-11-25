@@ -10,6 +10,8 @@ import Result from './pages/student/Result.jsx';
 import History from './pages/student/History.jsx';
 import TeacherDashboard from './pages/teacher/TeacherDashboard.jsx';
 import QuestionBank from './pages/teacher/QuestionBank.jsx';
+import CreateExam from './pages/teacher/CreateExam.jsx';
+import ExamResults from './pages/teacher/ExamResults.jsx';
 import AdminDashboard from './pages/admin/AdminDashboard.jsx';
 
 function App() {
@@ -31,6 +33,9 @@ function App() {
                     {/* teacher */}
                     <Route path="/teacher" element={<ProtectedRoute role="teacher"><TeacherDashboard /></ProtectedRoute>} />
                     <Route path="/teacher/questions" element={<ProtectedRoute role="teacher"><QuestionBank /></ProtectedRoute>} />
+                    <Route path="/teacher/exams/new" element={<ProtectedRoute role="teacher"><CreateExam /></ProtectedRoute>} />
+                    <Route path="/teacher/exams/:examId/results" element={<ProtectedRoute role="teacher"><ExamResults /></ProtectedRoute>} />
+                    <Route path="/teacher/result/:attemptId" element={<ProtectedRoute role="teacher"><Result /></ProtectedRoute>} />
 
                     {/* admin */}
                     <Route path="/admin" element={<ProtectedRoute role="admin"><AdminDashboard /></ProtectedRoute>} />
